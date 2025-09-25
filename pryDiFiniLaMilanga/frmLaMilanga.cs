@@ -1,8 +1,8 @@
 namespace pryDiFiniLaMilanga
 {
-    public partial class Form1 : Form
+    public partial class frmLaMilanga : Form
     {
-        public Form1()
+        public frmLaMilanga()
         {
             InitializeComponent();
         }
