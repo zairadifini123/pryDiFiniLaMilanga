@@ -71,23 +71,23 @@ namespace pryDiFiniLaMilanga
         private void btnMozoDelDia_Click(object sender, EventArgs e)
         {
             int MozoMayor = 0;
-            int ImporteMayor = 0;
+            float ImporteMayor = 0;
 
             for (int i = 0; i < dgvVentas.Rows.Count; i++)
             {
                 // Ignorar fila de nueva entrada
                 if (dgvVentas.Rows[i].IsNewRow) continue;
 
-                int Acumulador = 0;
+                float Acumulador = 0;
 
                 // Recorro columnas
                 for (int j = 0; j < dgvVentas.Columns.Count; j++)
                 {
-                    int valor = 0;
+                    float valor = 0;
 
-                    // Convertir de forma segura
+                    // Convertir de forma segura usando float
                     if (dgvVentas.Rows[i].Cells[j].Value != null &&
-                        int.TryParse(dgvVentas.Rows[i].Cells[j].Value.ToString(), out int temp))
+                        float.TryParse(dgvVentas.Rows[i].Cells[j].Value.ToString(), out float temp))
                     {
                         valor = temp;
                     }
@@ -102,35 +102,67 @@ namespace pryDiFiniLaMilanga
                     MozoMayor = i;
                 }
             }
+
+            // Nombres de los mozos
             string[] mozos = { "Julio", "Esteban", "Javier", "Gonzalo", "Alberto" };
 
+            // Mostrar resultado en un solo Label
             lblResultadoMozoDelDia.Text = "Mozo del día: " + mozos[MozoMayor] +
-                              " - Importe $: " + ImporteMayor.ToString();
+                                          "\nImporte $: " + ImporteMayor.ToString("0.00");
         }
 
         private void btnTotales_Click(object sender, EventArgs e)
         {
-            int totalComidas = 0;
-            int totalBebidasSin = 0;
-            int totalBebidasCon = 0;
-            int totalPostres = 0;
-            int totalGeneral = 0;
+            float totalComidas = 0;
+            float totalBebidasSin = 0;
+            float totalBebidasCon = 0;
+            float totalPostres = 0;
+            float totalGeneral = 0;
 
             for (int i = 0; i < dgvVentas.Rows.Count; i++)
             {
-                totalComidas += int.Parse(dgvVentas.Rows[i].Cells[0].Value?.ToString() ?? "0");
-                totalBebidasSin += int.Parse(dgvVentas.Rows[i].Cells[1].Value?.ToString() ?? "0");
-                totalBebidasCon += int.Parse(dgvVentas.Rows[i].Cells[2].Value?.ToString() ?? "0");
-                totalPostres += int.Parse(dgvVentas.Rows[i].Cells[3].Value?.ToString() ?? "0");
+                // Ignorar fila de nueva entrada
+                if (dgvVentas.Rows[i].IsNewRow) continue;
+
+                // Comidas
+                if (dgvVentas.Rows[i].Cells[0].Value != null &&
+                    float.TryParse(dgvVentas.Rows[i].Cells[0].Value.ToString(), out float tempCom))
+                {
+                    totalComidas += tempCom;
+                }
+
+                // Bebidas sin alcohol
+                if (dgvVentas.Rows[i].Cells[1].Value != null &&
+                    float.TryParse(dgvVentas.Rows[i].Cells[1].Value.ToString(), out float tempBS))
+                {
+                    totalBebidasSin += tempBS;
+                }
+
+                // Bebidas con alcohol
+                if (dgvVentas.Rows[i].Cells[2].Value != null &&
+                    float.TryParse(dgvVentas.Rows[i].Cells[2].Value.ToString(), out float tempBC))
+                {
+                    totalBebidasCon += tempBC;
+                }
+
+                // Postres
+                if (dgvVentas.Rows[i].Cells[3].Value != null &&
+                    float.TryParse(dgvVentas.Rows[i].Cells[3].Value.ToString(), out float tempP))
+                {
+                    totalPostres += tempP;
+                }
             }
 
+            // Total general
             totalGeneral = totalComidas + totalBebidasSin + totalBebidasCon + totalPostres;
 
-            lblResultadoTotales.Text = "Total Comidas: " + totalComidas + "\n" +
-                                       "Total Bebidas sin alcohol: " + totalBebidasSin + "\n" +
-                                       "Total Bebidas con alcohol: " + totalBebidasCon + "\n" +
-                                       "Total Postres: " + totalPostres + "\n" +
-                                       "Total General: " + totalGeneral;
+            // Mostrar en un solo Label, uno debajo del otro
+            lblResultadoTotales.Text = "Total Comidas: " + totalComidas.ToString("0.00") + "\n" +
+                                       "Total Bebidas sin alcohol: " + totalBebidasSin.ToString("0.00") + "\n" +
+                                       "Total Bebidas con alcohol: " + totalBebidasCon.ToString("0.00") + "\n" +
+                                       "Total Postres: " + totalPostres.ToString("0.00") + "\n" +
+                                       "Total General: " + totalGeneral.ToString("0.00");
+
         }
     }
 }
