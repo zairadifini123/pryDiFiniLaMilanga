@@ -7,21 +7,21 @@ namespace pryDiFiniLaMilanga
             InitializeComponent();
         }
 
+        float[,] matVentas = new float[6, 5];
+        float[,] matImportes = new float[4, 3];
         private void frmLaMilanga_Load(object sender, EventArgs e)
         {
-            string[] mozos = { "Julio", "Esteban", "Javier", "Gonzalo", "Alberto" };
 
-            // Agregar filas vacías
-            foreach (string mozo in mozos)
-            {
-                dgvVentas.Rows.Add(0, 0, 0, 0); // 4 columnas inicializadas en 0
-            }
+            dgvVentas.Rows.Add("Julio");
+            dgvVentas.Rows.Add("Esteban");
+            dgvVentas.Rows.Add("Javier");
+            dgvVentas.Rows.Add("Gonzalo");
+            dgvVentas.Rows.Add("Alberto");
 
-            // Poner los nombres de los mozos en los encabezados de fila
-            for (int i = 0; i < mozos.Length; i++)
-            {
-                dgvVentas.Rows[i].HeaderCell.Value = mozos[i];
-            }
+            dgvVentas.Columns[0].ReadOnly = true;
+
+            dgvVentas.Rows[0].Cells[0].Selected = false;
+            dgvVentas.Rows[0].Cells[1].Selected = true;
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
@@ -31,137 +31,34 @@ namespace pryDiFiniLaMilanga
 
         private void btnValidarDatos_Click(object sender, EventArgs e)
         {
-            bool DatosValidos = true;
-
-            // Recorro filas
-            for (int i = 0; i < dgvVentas.Rows.Count; i++)
+            for (int indiceFilas = 0; indiceFilas < dgvVentas.Rows.Count; indiceFilas++)
             {
-                // Recorro columnas
-                for (int j = 0; j < dgvVentas.Columns.Count; j++)
+                for (int indiceColumnas = 1; indiceColumnas < dgvVentas.Columns.Count; indiceColumnas++)
                 {
-                    string valor = dgvVentas.Rows[i].Cells[j].Value?.ToString() ?? "0";
+                    if (dgvVentas.Rows[indiceFilas].Cells[indiceColumnas].Value != null)
+                    {
+                        float contenidoCelda =
+                            float.Parse(dgvVentas.Rows[indiceFilas].Cells[indiceColumnas].Value.ToString());
 
-                    // Intento convertir a número
-                    try
-                    {
-                        float num = Convert.ToSingle(valor);
-                    }
-                    catch
-                    {
-                        // Si da error, hay algo mal
-                        DatosValidos = false;
+                        if (float.IsRealNumber(contenidoCelda))
+                        {
+                            dgvVentas.Rows[indiceFilas].Cells[indiceColumnas].Value = "si";
+                        }
+                        else
+                        {
+                            dgvVentas.Rows[indiceFilas].Cells[indiceColumnas].Value = "no";
+
+                        }
+
                     }
                 }
+
             }
 
-            if (DatosValidos)
-            {
-                MessageBox.Show("Todos los datos están correctos");
-                btnMozoDelDia.Enabled = true;
-                btnTotales.Enabled = true;
-            }
-            else
-            {
-                MessageBox.Show("Error: hay celdas que no son números");
-                btnMozoDelDia.Enabled = false;
-                btnTotales.Enabled = false;
-            }
         }
 
-        private void btnMozoDelDia_Click(object sender, EventArgs e)
+        private void frmLaMilanga_KeyPress(object sender, KeyPressEventArgs e)
         {
-            int MozoMayor = 0;
-            float ImporteMayor = 0;
-
-            for (int i = 0; i < dgvVentas.Rows.Count; i++)
-            {
-                // Ignorar fila de nueva entrada
-                if (dgvVentas.Rows[i].IsNewRow) continue;
-
-                float Acumulador = 0;
-
-                // Recorro columnas
-                for (int j = 0; j < dgvVentas.Columns.Count; j++)
-                {
-                    float valor = 0;
-
-                    // Convertir de forma segura usando float
-                    if (dgvVentas.Rows[i].Cells[j].Value != null &&
-                        float.TryParse(dgvVentas.Rows[i].Cells[j].Value.ToString(), out float temp))
-                    {
-                        valor = temp;
-                    }
-
-                    Acumulador += valor;
-                }
-
-                // Ver cuál mozo tiene el mayor total
-                if (Acumulador > ImporteMayor)
-                {
-                    ImporteMayor = Acumulador;
-                    MozoMayor = i;
-                }
-            }
-
-            // Nombres de los mozos
-            string[] mozos = { "Julio", "Esteban", "Javier", "Gonzalo", "Alberto" };
-
-            // Mostrar resultado en un solo Label
-            lblResultadoMozoDelDia.Text = "Mozo del día: " + mozos[MozoMayor] +
-                                          "\nImporte $: " + ImporteMayor.ToString("0.00");
-        }
-
-        private void btnTotales_Click(object sender, EventArgs e)
-        {
-            float totalComidas = 0;
-            float totalBebidasSin = 0;
-            float totalBebidasCon = 0;
-            float totalPostres = 0;
-            float totalGeneral = 0;
-
-            for (int i = 0; i < dgvVentas.Rows.Count; i++)
-            {
-                // Ignorar fila de nueva entrada
-                if (dgvVentas.Rows[i].IsNewRow) continue;
-
-                // Comidas
-                if (dgvVentas.Rows[i].Cells[0].Value != null &&
-                    float.TryParse(dgvVentas.Rows[i].Cells[0].Value.ToString(), out float tempCom))
-                {
-                    totalComidas += tempCom;
-                }
-
-                // Bebidas sin alcohol
-                if (dgvVentas.Rows[i].Cells[1].Value != null &&
-                    float.TryParse(dgvVentas.Rows[i].Cells[1].Value.ToString(), out float tempBS))
-                {
-                    totalBebidasSin += tempBS;
-                }
-
-                // Bebidas con alcohol
-                if (dgvVentas.Rows[i].Cells[2].Value != null &&
-                    float.TryParse(dgvVentas.Rows[i].Cells[2].Value.ToString(), out float tempBC))
-                {
-                    totalBebidasCon += tempBC;
-                }
-
-                // Postres
-                if (dgvVentas.Rows[i].Cells[3].Value != null &&
-                    float.TryParse(dgvVentas.Rows[i].Cells[3].Value.ToString(), out float tempP))
-                {
-                    totalPostres += tempP;
-                }
-            }
-
-            // Total general
-            totalGeneral = totalComidas + totalBebidasSin + totalBebidasCon + totalPostres;
-
-            // Mostrar en un solo Label, uno debajo del otro
-            lblResultadoTotales.Text = "Total Comidas: " + totalComidas.ToString("0.00") + "\n" +
-                                       "Total Bebidas sin alcohol: " + totalBebidasSin.ToString("0.00") + "\n" +
-                                       "Total Bebidas con alcohol: " + totalBebidasCon.ToString("0.00") + "\n" +
-                                       "Total Postres: " + totalPostres.ToString("0.00") + "\n" +
-                                       "Total General: " + totalGeneral.ToString("0.00");
 
         }
     }

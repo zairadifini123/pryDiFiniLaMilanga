@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             dgvVentas = new DataGridView();
+            Mozos = new DataGridViewTextBoxColumn();
             Comidas = new DataGridViewTextBoxColumn();
             BebidasSinAlcohol = new DataGridViewTextBoxColumn();
             BebidasConAlcohol = new DataGridViewTextBoxColumn();
@@ -45,12 +46,18 @@
             // dgvVentas
             // 
             dgvVentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvVentas.Columns.AddRange(new DataGridViewColumn[] { Comidas, BebidasSinAlcohol, BebidasConAlcohol, Postres });
-            dgvVentas.Location = new Point(12, 21);
+            dgvVentas.Columns.AddRange(new DataGridViewColumn[] { Mozos, Comidas, BebidasSinAlcohol, BebidasConAlcohol, Postres });
+            dgvVentas.Location = new Point(10, 16);
+            dgvVentas.Margin = new Padding(3, 2, 3, 2);
             dgvVentas.Name = "dgvVentas";
             dgvVentas.RowHeadersWidth = 51;
-            dgvVentas.Size = new Size(552, 188);
+            dgvVentas.Size = new Size(646, 141);
             dgvVentas.TabIndex = 0;
+            // 
+            // Mozos
+            // 
+            Mozos.HeaderText = "Mozos";
+            Mozos.Name = "Mozos";
             // 
             // Comidas
             // 
@@ -82,9 +89,10 @@
             // 
             // btnValidarDatos
             // 
-            btnValidarDatos.Location = new Point(574, 170);
+            btnValidarDatos.Location = new Point(662, 128);
+            btnValidarDatos.Margin = new Padding(3, 2, 3, 2);
             btnValidarDatos.Name = "btnValidarDatos";
-            btnValidarDatos.Size = new Size(141, 39);
+            btnValidarDatos.Size = new Size(123, 29);
             btnValidarDatos.TabIndex = 1;
             btnValidarDatos.Text = "Validar Datos";
             btnValidarDatos.UseVisualStyleBackColor = true;
@@ -92,9 +100,10 @@
             // 
             // btnSalir
             // 
-            btnSalir.Location = new Point(441, 401);
+            btnSalir.Location = new Point(548, 230);
+            btnSalir.Margin = new Padding(3, 2, 3, 2);
             btnSalir.Name = "btnSalir";
-            btnSalir.Size = new Size(123, 31);
+            btnSalir.Size = new Size(108, 23);
             btnSalir.TabIndex = 2;
             btnSalir.Text = "Salir";
             btnSalir.UseVisualStyleBackColor = true;
@@ -103,48 +112,48 @@
             // btnMozoDelDia
             // 
             btnMozoDelDia.Enabled = false;
-            btnMozoDelDia.Location = new Point(12, 241);
+            btnMozoDelDia.Location = new Point(12, 161);
+            btnMozoDelDia.Margin = new Padding(3, 2, 3, 2);
             btnMozoDelDia.Name = "btnMozoDelDia";
-            btnMozoDelDia.Size = new Size(141, 39);
+            btnMozoDelDia.Size = new Size(123, 29);
             btnMozoDelDia.TabIndex = 3;
             btnMozoDelDia.Text = "Mozo del dia";
             btnMozoDelDia.UseVisualStyleBackColor = true;
-            btnMozoDelDia.Click += btnMozoDelDia_Click;
             // 
             // btnTotales
             // 
             btnTotales.Enabled = false;
-            btnTotales.Location = new Point(12, 325);
+            btnTotales.Location = new Point(12, 224);
+            btnTotales.Margin = new Padding(3, 2, 3, 2);
             btnTotales.Name = "btnTotales";
-            btnTotales.Size = new Size(141, 39);
+            btnTotales.Size = new Size(123, 29);
             btnTotales.TabIndex = 4;
             btnTotales.Text = "Totales";
             btnTotales.UseVisualStyleBackColor = true;
-            btnTotales.Click += btnTotales_Click;
             // 
             // lblResultadoMozoDelDia
             // 
             lblResultadoMozoDelDia.AutoSize = true;
-            lblResultadoMozoDelDia.Location = new Point(172, 250);
+            lblResultadoMozoDelDia.Location = new Point(152, 168);
             lblResultadoMozoDelDia.Name = "lblResultadoMozoDelDia";
-            lblResultadoMozoDelDia.Size = new Size(159, 20);
+            lblResultadoMozoDelDia.Size = new Size(123, 15);
             lblResultadoMozoDelDia.TabIndex = 5;
             lblResultadoMozoDelDia.Text = "ResultadoMozoDelDia";
             // 
             // lblResultadoTotales
             // 
             lblResultadoTotales.AutoSize = true;
-            lblResultadoTotales.Location = new Point(172, 334);
+            lblResultadoTotales.Location = new Point(152, 230);
             lblResultadoTotales.Name = "lblResultadoTotales";
-            lblResultadoTotales.Size = new Size(122, 20);
+            lblResultadoTotales.Size = new Size(95, 15);
             lblResultadoTotales.TabIndex = 6;
             lblResultadoTotales.Text = "ResultadoTotales";
             // 
             // frmLaMilanga
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(727, 468);
+            ClientSize = new Size(790, 279);
             Controls.Add(lblResultadoTotales);
             Controls.Add(lblResultadoMozoDelDia);
             Controls.Add(btnTotales);
@@ -152,10 +161,13 @@
             Controls.Add(btnSalir);
             Controls.Add(btnValidarDatos);
             Controls.Add(dgvVentas);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            Margin = new Padding(3, 2, 3, 2);
             Name = "frmLaMilanga";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "La Milanga";
             Load += frmLaMilanga_Load;
+            KeyPress += frmLaMilanga_KeyPress;
             ((System.ComponentModel.ISupportInitialize)dgvVentas).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -166,13 +178,14 @@
         private DataGridView dgvVentas;
         private Button btnValidarDatos;
         private Button btnSalir;
-        private DataGridViewTextBoxColumn Comidas;
-        private DataGridViewTextBoxColumn BebidasSinAlcohol;
-        private DataGridViewTextBoxColumn BebidasConAlcohol;
-        private DataGridViewTextBoxColumn Postres;
         private Button btnMozoDelDia;
         private Button btnTotales;
         private Label lblResultadoMozoDelDia;
         private Label lblResultadoTotales;
+        private DataGridViewTextBoxColumn Mozos;
+        private DataGridViewTextBoxColumn Comidas;
+        private DataGridViewTextBoxColumn BebidasSinAlcohol;
+        private DataGridViewTextBoxColumn BebidasConAlcohol;
+        private DataGridViewTextBoxColumn Postres;
     }
 }
