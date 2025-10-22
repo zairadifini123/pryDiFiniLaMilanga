@@ -100,10 +100,10 @@
             // 
             // btnSalir
             // 
-            btnSalir.Location = new Point(548, 230);
+            btnSalir.Location = new Point(662, 433);
             btnSalir.Margin = new Padding(3, 2, 3, 2);
             btnSalir.Name = "btnSalir";
-            btnSalir.Size = new Size(108, 23);
+            btnSalir.Size = new Size(123, 29);
             btnSalir.TabIndex = 2;
             btnSalir.Text = "Salir";
             btnSalir.UseVisualStyleBackColor = true;
@@ -119,6 +119,7 @@
             btnMozoDelDia.TabIndex = 3;
             btnMozoDelDia.Text = "Mozo del dia";
             btnMozoDelDia.UseVisualStyleBackColor = true;
+            btnMozoDelDia.Click += btnMozoDelDia_Click;
             // 
             // btnTotales
             // 
@@ -130,6 +131,7 @@
             btnTotales.TabIndex = 4;
             btnTotales.Text = "Totales";
             btnTotales.UseVisualStyleBackColor = true;
+            btnTotales.Click += btnTotales_Click;
             // 
             // lblResultadoMozoDelDia
             // 
@@ -143,7 +145,7 @@
             // lblResultadoTotales
             // 
             lblResultadoTotales.AutoSize = true;
-            lblResultadoTotales.Location = new Point(152, 230);
+            lblResultadoTotales.Location = new Point(12, 271);
             lblResultadoTotales.Name = "lblResultadoTotales";
             lblResultadoTotales.Size = new Size(95, 15);
             lblResultadoTotales.TabIndex = 6;
@@ -153,7 +155,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(790, 279);
+            ClientSize = new Size(790, 473);
             Controls.Add(lblResultadoTotales);
             Controls.Add(lblResultadoMozoDelDia);
             Controls.Add(btnTotales);
